@@ -6,7 +6,7 @@
             <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge">
           </a>
           <a aria-label="pypi" href="https://img.shields.io/pypi/pyversions/viseca">
-            <img src="https://img.shields.io/pypi/pyversions/viseca?style=for-the-badge">  
+            <img src="https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/peacefulotter/viseca/main/pyproject.toml&style=for-the-badge">  
           </a>
           <a aria-label="GitHub last commit" href="https://www.github.com/peacefulotter/viseca">
             <img src="https://img.shields.io/github/last-commit/peacefulotter/viseca/main?style=for-the-badge">
@@ -15,6 +15,9 @@
     </div>
     <h3><b>Fetch transactions from Viseca One</b></h3>
 </div>
+
+![Python Version from PEP 621 TOML](https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Fpeacefulotter%2Fviseca%2Fmain%2Fpyproject.toml)
+
 
 ```sh
 >>> uv add viseca
