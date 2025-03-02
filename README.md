@@ -1,5 +1,8 @@
 <div align="center">
-    <h1>💸 viseca</h2>
+    <h1 style='font-size: 32px'>
+      <b>💸 viseca</b><br/>
+      <span style='font-size: 16px'>Fetch transactions from Viseca One</span>
+    </h1>
     <div>
         <p align="center">
           <a aria-label="MIT License" href="https://opensource.org/licenses/MIT">
@@ -13,11 +16,7 @@
           </a>
         </p>
     </div>
-    <h3><b>Fetch transactions from Viseca One</b></h3>
 </div>
-
-![Python Version from PEP 621 TOML](https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Fpeacefulotter%2Fviseca%2Fmain%2Fpyproject.toml)
-
 
 ```sh
 >>> uv add viseca
