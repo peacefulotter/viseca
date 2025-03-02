@@ -1,0 +1,33 @@
+[project]
+name = "viseca"
+version = "0.1.0"
+description = "Viseca login and data export tool"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "click>=8.1.0",
+    "python-dotenv>=1.0.0",
+    "matplotlib>=3.10.1",
+    "pandas>=2.2.3",
+    "pymixbox>=2.0.0",
+    "scipy>=1.15.2",
+    "seaborn>=0.13.2",
+    "pydantic>=2.10.6",
+]
+
+[build-system]
+requires = ["setuptools>=64.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["E402"]
+
+[tool.setuptools.dynamic]
+version = { attr = "viseca.__version__" }
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+]

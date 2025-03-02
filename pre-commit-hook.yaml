@@ -1,0 +1,50 @@
+default_language_version:
+  node: 22.14.0
+  python: 3.10
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # list of supported hooks: https://pre-commit.com/hooks.html
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: debug-statements
+      - id: detect-private-key
+
+  # Ruff linter + formatter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.9.7
+    hooks:
+      # Run the linter.
+      - id: ruff
+        types_or: [python, pyi]
+        args: [--fix]
+      # Run the formatter.
+      - id: ruff-format
+        types_or: [python, pyi]
+
+  # Fixes implicit Optional[...]
+  - repo: https://github.com/hauntsaninja/no_implicit_optional
+    rev: "1.4" # Use the latest tag from the repo
+    hooks:
+      - id: no_implicit_optional
+
+  # python static type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.15.0"
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-PyYAML, types-setuptools]
+        exclude: "tests"
+
+  # add bandit for security checks
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.3
+    hooks:
+      - id: bandit
+        args: ["-c", "pyproject.toml", "-s", "B101"]
+        additional_dependencies: ["bandit[toml]"]
