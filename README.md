@@ -9,8 +9,7 @@
             <img src="https://img.shields.io/pypi/pyversions/viseca?style=for-the-badge">  
           </a>
           <a aria-label="GitHub last commit" href="https://www.github.com/peacefulotter/viseca">
-            <img src="https://img.shields.io/github/last-commit/peacefulotter/viseca/main?style=for-the-badge
-            ">
+            <img src="https://img.shields.io/github/last-commit/peacefulotter/viseca/main?style=for-the-badge">
           </a>
         </p>
     </div>
