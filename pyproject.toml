@@ -1,8 +1,9 @@
 [project]
 name = "viseca"
 version = "0.1.0"
-description = "Viseca login and data export tool"
+description = "Fetch transactions from Viseca One"
 readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.10"
 dependencies = [
     "requests>=2.31.0",
@@ -18,8 +19,9 @@ dependencies = [
 ]
 
 [build-system]
-requires = ["setuptools>=64.0.0", "wheel"]
+requires = ["setuptools", "wheel", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
+
 
 [tool.ruff.lint.per-file-ignores]
 "*.ipynb" = ["E402"]
@@ -28,6 +30,7 @@ build-backend = "setuptools.build_meta"
 version = { attr = "viseca.__version__" }
 
 [dependency-groups]
-dev = [
-    "ipykernel>=6.29.5",
-]
+dev = ["ipykernel>=6.29.5"]
+
+[tool.setuptools]
+license-files = []
