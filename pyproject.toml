@@ -1,6 +1,6 @@
 [project]
 name = "viseca"
-version = "0.1.0"
+version = "0.1.1"
 description = "Fetch transactions from Viseca One"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -16,6 +16,11 @@ dependencies = [
     "scipy>=1.15.2",
     "seaborn>=0.13.2",
     "pydantic>=2.10.6",
+]
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 
 [build-system]
