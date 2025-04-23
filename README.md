@@ -1,8 +1,6 @@
 <div align="center">
-    <h1 style='font-size: 32px'>
-      <b>💸 viseca</b><br/>
-      <span style='font-size: 16px'>Fetch transactions from Viseca One</span>
-    </h1>
+    <h1><b>💸 viseca</b><br/></h1>
+    <h3>A python package to easily fetch transactions from the Viseca One app</h3>
     <div>
         <p align="center">
           <a aria-label="MIT License" href="https://opensource.org/licenses/MIT">
