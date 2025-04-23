@@ -16,6 +16,12 @@
     </div>
 </div>
 
+With **pip**:
+```
+>>> pip install viseca
+```
+
+With **uv**:
 ```sh
 >>> uv add viseca
 ```
