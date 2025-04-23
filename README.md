@@ -40,16 +40,19 @@ This method processes the auth flow in the CLI and will trigger a 2FA request li
     >>> VISECA_CARD_ID=YOUR_CARD_ID
     ```
 1.  Fetch transactions (and save them to a file)
-    - Using commands
-    ```sh
-    uv run viseca/transactions.py --file transactions.csv
-    ```
-    - Or the python package
     ```python
     from viseca import VisecaClient, format_transactions
-
+    
     client = VisecaClient()
     txs = client.list_transactions()
     df = format_transactions(txs)
     df.to_csv("transactions.csv")
     ```
+
+
+### Locally
+We provide commands as an alternative to the python api, e.g. for fetching transactions and saving them to a file:
+```sh
+uv run viseca/transactions.py --file transactions.csv
+```
+
