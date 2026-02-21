@@ -17,42 +17,60 @@
 </div>
 
 With **pip**:
+
 ```
 >>> pip install viseca
 ```
 
 With **uv**:
+
 ```sh
 >>> uv add viseca
 ```
-
 
 ## Usage
 
 This method processes the auth flow in the CLI and will trigger a 2FA request like the login in a browser would.
 
 1. Log in to [one.viseca.ch](https://one.viseca.ch) and navigate to "Transactions"
-1. Obtain the card ID from the path (between `/v1/card/` and `/transactions`) and store it in your `.env` file. Additionaly, to avoid entering your credentials everytime, feel free to add them to the `.env` file as well. 
-    ```sh
-    cp .env.example .env
-    >>> VISECA_USERNAME=YOUR_MAIL
-    >>> VISECA_PASSWORD=YOUR_PASSWORD
-    >>> VISECA_CARD_ID=YOUR_CARD_ID
-    ```
-1.  Fetch transactions (and save them to a file)
-    ```python
-    from viseca import VisecaClient, format_transactions
-    
-    client = VisecaClient()
-    txs = client.list_transactions()
-    df = format_transactions(txs)
-    df.to_csv("transactions.csv")
-    ```
+1. Retrive your "card ID": it can be found in the url for instance as `https://one.viseca.ch/de/karte/MY_CARD_ID` or `https://one.viseca.ch/de/transaktionen/MY_CARD_ID`.
+1. Store your username, password and card ID in a new `.env` file at the root.
 
+   ```sh
+   $ cp .env.example .env
+   ```
+
+   ```sh
+   >>> VISECA_USERNAME=YOUR_MAIL
+   >>> VISECA_PASSWORD=YOUR_PASSWORD
+   >>> VISECA_CARD_ID=YOUR_CARD_ID
+   ```
+
+1. Fetch transactions (and save them to a file)
+   - Either using python:
+
+   ```python
+   from viseca import VisecaClient, format_transactions
+
+   client = VisecaClient()
+   txs = client.list_transactions()
+   df = format_transactions(txs)
+   df.to_csv("transactions.csv")
+   ```
+
+   - Or via the CLI:
+
+   ```sh
+   # With uv:
+   uv run viseca/transactions --file my_transactions.csv
+   # With python
+   python run viseca/transactions.csv --file my_transactions.csv
+   ```
 
 ### Locally
+
 We provide commands as an alternative to the python api, e.g. for fetching transactions and saving them to a file:
+
 ```sh
 uv run viseca/transactions.py --file transactions.csv
 ```
-

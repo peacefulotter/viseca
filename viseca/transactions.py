@@ -1,5 +1,4 @@
 import os
-import traceback
 from datetime import datetime
 from typing import List, Optional
 
@@ -123,23 +122,18 @@ def fetch_transactions(
     file: Optional[str] = None,
 ) -> List[Transactions]:
     """List all transactions for given card ID."""
-    try:
-        from viseca.client import VisecaClient
+    from viseca.client import VisecaClient
 
-        client = VisecaClient(username, password)
-        card_id = get_card_id(card_id)
-        transactions = client.list_transactions(
-            card_id=card_id, date_from=date_from, date_to=date_to
-        )
+    client = VisecaClient(username, password)
+    card_id = get_card_id(card_id)
+    transactions = client.list_transactions(
+        card_id=card_id, date_from=date_from, date_to=date_to
+    )
 
-        if file is not None:
-            format_transactions(transactions).to_csv(file, index=False)
+    if file is not None:
+        format_transactions(transactions).to_csv(file, index=False)
 
-        return transactions
-
-    except Exception:
-        traceback.print_exc()
-        return None
+    return transactions
 
 
 if __name__ == "__main__":

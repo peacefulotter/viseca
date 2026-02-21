@@ -1,15 +1,23 @@
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional, TypedDict, cast
 
 import requests
-from bs4 import BeautifulSoup
+import requests.cookies
 
 from viseca.credentials import get_credentials
 from viseca.transactions import Transactions
 
 BASE_URL = "https://one.viseca.ch/api"
 API_URL = "https://api.one.viseca.ch/v1"
+LOGIN_URL = "https://one.viseca.ch/oneidentity/login"  # legacy: "https://one.viseca.ch/login/login"
+AUTHENTICATE_URL = "https://auth.one.viseca.ch/v1/web/user/authenticateuser"
+CONFIRMATION_URL = "https://api.one.viseca.ch/v1/web/user/authentication/2fa/pollUserReply"  # legacy: "https://one.viseca.ch/login/app-confirmation"
+
+
+class ConfirmationData(TypedDict):
+    userReply: Literal["noReply", "accept"]
+    pollDelay: int
 
 
 def get_session():
@@ -19,10 +27,10 @@ def get_session():
     # Set browser-like headers
     session.headers.update(
         {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
             "Accept-Language": "en-US,en;q=0.9",
-            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
             "Connection": "keep-alive",
             "Sec-Fetch-Dest": "document",
             "Sec-Fetch-Mode": "navigate",
@@ -46,11 +54,14 @@ def await_app_confirmation(
             raise Exception("Timeout waiting for app confirmation")
 
         try:
-            response = session.get(
-                "https://one.viseca.ch/login/app-confirmation", allow_redirects=False
-            )
+            response = session.get(CONFIRMATION_URL, allow_redirects=False)
 
-            if response.status_code == 302:
+            if response.status_code != 200:
+                return Exception("2FA Confirmation step failed.")
+
+            data = cast(ConfirmationData, response.json())
+
+            if data["userReply"] == "accept":
                 return
 
         except requests.RequestException as e:
@@ -67,31 +78,26 @@ class VisecaClient:
 
     def login(self, username: str, password: str):
         """Main login function that handles the Viseca authentication flow."""
-        # Get the login page and extract the form token
-        response = self.session.get(
-            "https://one.viseca.ch/login/login", allow_redirects=False
-        )
+        response = self.session.get(LOGIN_URL, allow_redirects=False)
 
-        soup = BeautifulSoup(response.text, "html.parser")
-        form_token = soup.find("input", {"name": "FORM_TOKEN"})["value"]
         form_data = {
-            "FORM_TOKEN": form_token,
-            "USERNAME": username,
-            "PASSWORD": password,
+            "username": username,
+            "password": password,
+            "reason": "portalLogin",
         }
 
         try:
             response = self.session.post(
-                "https://one.viseca.ch/login/login",
+                AUTHENTICATE_URL,
                 data=form_data,
                 headers={"Content-Type": "application/x-www-form-urlencoded"},
                 allow_redirects=False,
             )
 
-            if response.status_code != 302:
-                raise Exception("Login failed (no redirect response)")
+            if response.status_code != 200:
+                raise Exception("Login failed when attempting to authenticate")
 
-            # Wait for app confirmation
+            # Wait for 2FA app confirmation
             await_app_confirmation(self.session)
 
         except requests.RequestException as e:

@@ -1,6 +1,6 @@
 [project]
 name = "viseca"
-version = "0.1.1"
+version = "0.1.2"
 description = "Fetch transactions from Viseca One"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -21,6 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
 [build-system]

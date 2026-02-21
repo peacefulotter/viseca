@@ -6,7 +6,7 @@ from viseca.client import VisecaClient
 
 
 def login_cli(
-    client: VisecaClient, username: Optional[str], password: Optional[str]
+    username: Optional[str], password: Optional[str]
 ) -> Optional[VisecaClient]:
     """CLI wrapper for the login function."""
     try:
